@@ -78,45 +78,17 @@ public class Bot {
     userMap = initalizeUserMap();
     isLoggedMap = initalizeIsLoggedMap();
     //channelMap = initalizeChannelMap();
-    //not sure if i will need this again....
-    /*userMap.put("brian", 348322302888378368L);
-    userMap.put("alex", 154033288309243904L);
-    userMap.put("max", 207705413892702208L);
-    userMap.put("brinn",339388622769881101L);
-    userMap.put("issac",231178844218982400L);
-    userMap.put("mike",119199138578432001L);
-    userMap.put("lesbian",133906240689405952L);
-    userMap.put("adam",249950785717141504L);
-    userMap.put("ed",168238226421579776L);
-    userMap.put("ellie",411684425475293206L);
-    userMap.put("marina",257156440278564864L);
-    userMap.put("steven",371004927159566350L);
-    userMap.put("kyle",210820678222479371L);
-    userMap.put("logan", 578039121390469161L);
-    userMap.put("dan", 194957841151295488L);
-    userMap.put("charlene", 415316862747017227L);
-    userMap.put("madi", 322159639552851969L);
-    userMap.put("nina",145359239949320192L);
-    userMap.put("norland",294289329356800010L);
-    userMap.put("rachel", 524390006773645315L);
-    userMap.put("kenz",168575910637731840L);
-    userMap.put("amy",634561941284847636L);
-    userMap.put("alfonso", 184505014796943360L);
-    userMap.put("lauren",339862420715470848L);
-    userMap.put("brion",122180592509911040L);
-    userMap.put("leo",205202519343759360L);
-    userMap.put("hema",559744014107279361L);
-    userMap.put("death by meth",631364666500579328L);
-    userMap.put("yotters",649876950193537054L);
-    userMap.put("yetters",542862250122412035L);
-    userMap.put("holysouls",631364822726082571L);
+    //manually intialize userlist
+    /*
+    userMap.put("Mike", 154033288309243904L);
+    */
     saveUserMap();*/
 
 
-    DiscordClientBuilder builder = new DiscordClientBuilder("NjM2MDY0MDUxNTQ1MjQzNjU4.XewdaA.S2fMPOtp4x1_-bMdhZw6G3CSSPk");
+    DiscordClientBuilder builder = new DiscordClientBuilder("token goes here");
     DiscordClient client = builder.build();
-    botID = 636064051545243658L;
-    long yeetyServer = 541828630788177922L;
+    botID = botIDhere;
+    long yeetyServer = ;
     boolean logServer = false;
     long hofids = 548370461168500747L;
     long memoriesid = 617218765649608706L;
@@ -139,22 +111,23 @@ public class Bot {
 
 //logs messages from entire server from specific user
 
-//reverseFile("yeetLog.txt");
 
   
 
-/*
-client.getEventDispatcher().on(MessageCreateEvent.class).map(MessageCreateEvent::getMessage)
-        .filter(message -> message.getChannelId().asLong() == testChannel)
-        .filter(message -> message.getAuthor().map(user -> user.getId()).isPresent() 
-        && message.getAuthor().map(user -> user.getId()).get().asLong() == myID)//max is dividing
-        .filter(message -> message.getContent().orElse("").startsWith("!logforchat"))
-        .subscribe(message-> { 
-   client.getChannelById(Snowflake.of(commonsID)).subscribe(channel ->  { 
-      if(channel.getType() == Channel.Type.GUILD_TEXT) { ((MessageChannel)channel).getLastMessage()
-        .subscribe(tempMessage -> ((MessageChannel)channel).getMessagesBefore(tempMessage.getId())
-        .subscribe(message2 -> { saveChannel(((TextChannel)channel).getName(),message2.getContent().orElse(null)); 
-            System.out.println("Saving  all message for a channel"); } )); } }); });*/
+if(logServer)
+{
+	client.getEventDispatcher().on(MessageCreateEvent.class).map(MessageCreateEvent::getMessage)
+        	.filter(message -> message.getChannelId().asLong() == testChannel)
+        	.filter(message -> message.getAuthor().map(user -> user.getId()).isPresent() 
+        	&& message.getAuthor().map(user -> user.getId()).get().asLong() == myID)//max is dividing
+        	.filter(message -> message.getContent().orElse("").startsWith("!logforchat"))
+        	.subscribe(message-> { 
+   	client.getChannelById(Snowflake.of(commonsID)).subscribe(channel ->  { 
+      	if(channel.getType() == Channel.Type.GUILD_TEXT) { ((MessageChannel)channel).getLastMessage()
+        	.subscribe(tempMessage -> ((MessageChannel)channel).getMessagesBefore(tempMessage.getId())
+        	.subscribe(message2 -> { saveChannel(((TextChannel)channel).getName(),message2.getContent().orElse(null)); 
+            	System.out.println("Saving  all message for a channel"); } )); } }); });
+}
   
 
 
