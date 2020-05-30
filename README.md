@@ -48,6 +48,7 @@ The server was created using Java
  ###A Neurosurgery Patient Anatomy Application
  From my abstract in the pdf report:
  >Neuroimaging has allowed for doctors to diagnose patients and make decisions on treatment. Often patients must make life-altering decisions on treatment options. Due the nature of cancer in the brain, the side effects of a treatment option can vary. Doctors do their best to provide patients with the information they need to make these decisions. CT and MRI scans effectively communicate to medical experts what is going on in the brain, but it is not as clear to the average person.
+ 
 >With all this in mind, we decided to produce a pipeline to segment and visualize a patient’s brain. This visualization can be presented to the patient to better help explain their condition and give them more information to make decisions on treatment options. In this report, we will discuss how set up server to process the brain, used FreeSurfer to segment the brain and used VTK to render it on an iPhone. 
  
  Video project presentation:
