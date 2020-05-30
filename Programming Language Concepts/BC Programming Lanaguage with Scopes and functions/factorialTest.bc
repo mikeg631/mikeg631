@@ -1,0 +1,11 @@
+define ab(a)
+{
+if(a<=1)
+{
+return 1;
+} else{
+return a*ab(a-1);
+}
+}
+
+b=ab(6);/*feel free to change 6 to any number. Output is 720*/

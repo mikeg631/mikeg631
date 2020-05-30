@@ -1,0 +1,11 @@
+b=2;
+if(5>4)
+{
+if(5>4)
+{
+c=2;
+}
+b=c*b;/* calculates 2*0 = 0*/
+}
+b; /* prints 0 */
+c; /* prints 0 */

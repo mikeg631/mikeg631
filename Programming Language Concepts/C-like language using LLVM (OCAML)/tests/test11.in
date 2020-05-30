@@ -1,0 +1,10 @@
+void main()
+{
+     printf("Counting down");
+    for(int i = 75; i > 1; --i)
+    {
+        printf("    ");
+        printf(i);
+         printf("    ");
+    }
+}

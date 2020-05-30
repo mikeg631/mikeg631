@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.target=MinHeap
+comment0.text=\r\n\ Write\ a\ description\ of\ class\ MinHeap\ here.\r\n\r\n\ @author\ (your\ name)\r\n\ @version\ (a\ version\ number\ or\ a\ date)\r\n
+comment1.params=maxSize
+comment1.target=MinHeap(int)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ MinHeap\r\n
+comment10.params=
+comment10.target=int\ size()
+comment11.params=
+comment11.target=HuffTree\ remove()
+comment2.params=pos
+comment2.target=int\ parent(int)
+comment3.params=pos
+comment3.target=int\ leftChild(int)
+comment4.params=pos
+comment4.target=int\ rightChild(int)
+comment5.params=pos
+comment5.target=boolean\ isLeaf(int)
+comment6.params=fpos\ spos
+comment6.target=void\ swap(int,\ int)
+comment7.params=pos
+comment7.target=void\ minHeapify(int)
+comment8.params=element
+comment8.target=void\ insert(HuffTree)
+comment9.params=
+comment9.target=void\ minHeap()
+numComments=12

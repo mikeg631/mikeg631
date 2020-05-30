@@ -1,0 +1,14 @@
+int modolus(int a, int b)
+{
+ int c = a/b;
+ c = b*c;
+ c = a - c;
+return c;
+}
+
+void main()
+{
+    printf("A=78 modouls 24 =");
+    int d = modolus(78,24);
+    printf(d);
+}

@@ -1,0 +1,19 @@
+double add(double c, double d)
+{
+   int e = c +d;
+   return d+2;
+}
+int divide(int a, int d)
+{
+   int r = a/d;
+   return r;
+}
+void main()
+{
+    int n = divide(10,6);
+   int b = 5;
+   double results = add(b,n);
+   printf("The result is ");
+   printf(results);
+   return;
+}

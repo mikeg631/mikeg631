@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.target=HuffTree
+comment1.params=el\ wt
+comment1.target=HuffTree(char,\ int)
+comment1.text=Constructors
+comment2.params=l\ r\ wt
+comment2.target=HuffTree(HuffBaseNode,\ HuffBaseNode,\ int)
+comment3.params=
+comment3.target=HuffBaseNode\ root()
+comment4.params=
+comment4.target=int\ weight()
+comment5.params=t
+comment5.target=int\ compareTo(java.lang.Object)
+numComments=6

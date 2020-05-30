@@ -1,0 +1,19 @@
+if(a>b)
+{
+print "Not happening 0>0 false"
+}
+
+if(a == 0)
+{
+print "a is equal to zero as it is undefined"
+}
+
+
+if(4>5)
+{
+print "not happening"
+}
+else
+{
+print "4 is not greater than 5"
+}

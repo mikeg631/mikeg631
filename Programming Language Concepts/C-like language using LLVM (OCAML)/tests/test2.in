@@ -1,0 +1,18 @@
+
+double test(double f,double g) { 
+  return 3.0*f+g;
+}
+
+double try(int c)
+{
+    int arg = c + 2;
+    double f = test(3.0,2.0);
+    printf("dog"+"cat");
+    printf("mutliply a,b via add c,d");
+    return f;
+}
+
+void main()
+{
+  try(10);
+}

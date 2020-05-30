@@ -1,0 +1,18 @@
+double add(double c, double d)
+{
+   int e = c +d;
+   return d+2;
+}
+
+double multiply(int a, double b, double c )
+{
+   double result = b;
+    return result;
+}
+
+
+void main()
+{
+    printf("The lonely fox jumped over the lazy dog\n The cat is fat");
+    return;
+}

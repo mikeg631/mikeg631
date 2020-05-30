@@ -1,0 +1,5 @@
+5*/*comment in the middle of expression works*/4
+/*Output above is 20
+Normal
+mutli
+line comment*/

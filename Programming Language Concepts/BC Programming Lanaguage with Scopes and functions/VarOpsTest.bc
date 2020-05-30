@@ -1,0 +1,29 @@
+a; /*Undeclared Variable = 0*/
+a = 5; /* A set to 5*/
+--a; /*pre decrement, 4 printed*/
+++a; /*pre increment, 5 printed*/
+a--; /*post decrement, 5 printed again, a has value 4*/
+a++; /*post increment, 4 printed*, a has value 5*/
+a+=5; /*5 added to a, a = 10*/
+a-=5;/*5 subtracted from a, a=5*/
+a*=5;/*a*5, a=25*/
+a/=5;/*a/5, a = 5*/
+a^=2;/*a^2, a=25*/
+a+=2;/*a=27*/
+a%=5;/*a%5, a=2*/
+
+/*Terminal Results:
+0.0
+5.0
+4.0
+5.0
+5.0
+4.0
+10.0
+5.0
+25.0
+5.0
+25.0
+27.0
+2.0
+*/

@@ -1,0 +1,6 @@
+a=5;?/*No print happens here*/
+5*4;/* print happens*/
+a=6;/*No output*/
+5*4;/*output*/
+print a=5," ",a=3;/*print statements always prints, even assignments. Output is "5 3"*/
+print 5*3,4*5,3+2*a;/*Print doesn't insert spaces. Output: "15.020.09.0"*/

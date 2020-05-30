@@ -1,0 +1,17 @@
+int add(double a, double b)
+{
+return a+b;
+}
+
+void main()
+{
+  
+   5+4;
+   printf("addfnc");
+   printf("5+4=\\n");
+   int c = add(5,4);
+   printf("9");
+   return;
+}
+
+   

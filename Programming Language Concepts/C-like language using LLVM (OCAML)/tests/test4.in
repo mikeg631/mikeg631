@@ -1,0 +1,14 @@
+double multiplyd(int c)
+{
+    int d= 99;
+    int f = d*c;
+    return f;
+}
+
+void main()
+{
+
+    printf("Constant D = 5");
+    printf("Func multiply c to d");
+    int l = multiplyd(5);
+}

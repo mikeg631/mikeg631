@@ -1,0 +1,4 @@
+My matrix is implemented using a linked list that has values for it's columns and rows included. My elements are added in to be sorted by rows into a list. I choose this implementation as it made it possible to keep track of the non-zero values without storing information about the zero values.
+The clear, setSize, getNumRows and getNumCols operations are is on O(1). toString(), getElement, removeElement and addElement is all O(n). 
+multiplyMatrices is on O(n^3) as there are 3 levels of nested loops needed to calculate and properly place each value in the new matrix. 
+addMatrices is on O(n^2) as a double for loop is used to add each elements to the new matrix.

@@ -1,0 +1,13 @@
+int test2(int a, int b)
+{
+int f = 2000;
+int c = test1(4000*constant,2,1000);
+return c;
+}
+
+
+ void() main
+{
+    int t2 = test2(4000,1000);
+    printf(t2);
+}

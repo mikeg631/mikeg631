@@ -1,0 +1,17 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = "Bot"
+repositories {
+  mavenCentral()
+}
+
+dependencies {
+  implementation 'com.discord4j:discord4j-core:3.0.10'
+}
+
+
+jar {
+    baseName = 'mybot'
+    version =  '0.1.0'
+}

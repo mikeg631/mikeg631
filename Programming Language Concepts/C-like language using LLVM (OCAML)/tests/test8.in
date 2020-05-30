@@ -1,0 +1,23 @@
+void main()
+{
+    bool n = 4 > 3;
+   bool c = false;
+    if(n)
+    {
+        printf("Yes four is greater than three");
+    }
+
+    if(!c)
+    {
+        printf("Not false is true!");
+    }
+
+    if(c && n)
+    {
+        printf("This won't happen");
+    } else
+    {
+        printf("True and false is false\n");
+    }
+    return;
+}

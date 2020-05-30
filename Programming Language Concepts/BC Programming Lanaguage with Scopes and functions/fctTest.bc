@@ -1,0 +1,16 @@
+print "sqrt(4): "
+sqrt(4);/*Result 2.0*/
+print "s(0): "
+s(0); /*Result: 0 */
+print "c(3.14): "
+c(3.14);/*Result: ~ -1*/
+print "b=e(a): "
+b=e(a);/*Result: ~2.7182818*/
+print "l(b): "
+l(b);/*Result: ~1*/
+print "l(e(a)): "
+l(e(a));/*Result: ~1*/
+print "c(3.14)*5+2: "
+c(3.14)*5+2;/*Result: ~ -3*/
+print "s((3.14/2)): "
+s((3.14/2));/*Result: ~1*/

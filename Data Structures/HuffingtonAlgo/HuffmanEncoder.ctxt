@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.target=HuffmanEncoder
+comment1.params=inputFile
+comment1.target=java.lang.String\ getFrequencies(java.io.File)
+comment2.params=inputFile
+comment2.target=HuffTree\ buildTree(java.io.File)
+comment3.params=inputFile\ huffTree
+comment3.target=java.lang.String\ encodeFile(java.io.File,\ HuffTree)
+comment4.params=code\ huffTree
+comment4.target=java.lang.String\ decodeFile(java.lang.String,\ HuffTree)
+comment4.text=\r\n\ Method\ decodeFile\r\n\r\n\ @param\ code\ A\ parameter\r\n\ @param\ huffTree\ A\ parameter\r\n\ @return\ The\ return\ value\r\n
+comment5.params=huffTree
+comment5.target=java.lang.String\ traverseHuffmanTree(HuffTree)
+comment6.params=n\ s
+comment6.target=java.lang.String\ getCodes(HuffBaseNode,\ java.util.Stack)
+numComments=7

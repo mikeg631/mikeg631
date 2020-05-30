@@ -1,0 +1,18 @@
+void count(int d)
+{
+    int i = d;
+    while(i<100)
+    {
+        printf(5);
+        i = i + 1;
+    }
+    return;
+}
+
+void main()
+{
+    int c = 1;
+    printf("Letscount");
+    count(c);
+    return;
+}

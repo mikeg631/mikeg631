@@ -1,0 +1,60 @@
+a=2; 
+b=0;/*declaring variables*/
+print "b=0||2: "
+b=0||2;
+print " b = "
+b;/*1 prints, but b=0 as stated in bc precedence manaul */
+print "!b: "
+!b; /*prints 1*/
+print "b && a || b : "
+b && a || b;/*Result is 0*/
+print "b || a && b : "
+b || a && b;/*Result is 0*/
+print "a="
+a = 0;/*make a=0*/
+print "b && a || !b : "
+b && a || !b;/*Result is 1*/
+print "b || a && !b : "
+b || a && !b;/*Result is 0*/
+print "!b || a && b: "
+!b || a && b;/*Result is 1*/
+print "(!b || a) && b: "
+ (!b || a) && b;/*Result is 0*/
+print "Doing arithmetic inside of boolean expressions"
+print "b||a+2: "
+b||a+1; /*, 2 is added to a and then or'd with b, Result is 1*/
+print "!a&&b+2: "
+ !a&&b+2;/*output is 1*/
+print "5*!a: "
+ 5*!a; "Outputs 5";
+
+/*Terminal output: 
+2.0
+0.0
+"b=0||2: "
+1.0
+" b = "
+0.0
+"!b: "
+1.0
+"b && a || b : "
+0.0
+"b || a && b : "
+0.0
+"a="
+0.0
+"b && a || !b : "
+1.0
+"b || a && !b : "
+0.0
+"!b || a && b: "
+1.0
+"(!b || a) && b: "
+0.0
+"Doing arithmetic inside of boolean expressions"
+"b||a+2: "
+1.0
+"!a&&b+2: "
+1.0
+"5*!a: "
+5.0 */

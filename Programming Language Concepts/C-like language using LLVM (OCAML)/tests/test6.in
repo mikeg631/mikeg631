@@ -1,0 +1,21 @@
+int factorial(int n)
+{
+    int c = 1;
+
+     if (n == 0 || n == 1)
+    {
+        c=1;
+    } else
+     { 
+         c = n*factorial(n-1);
+     }
+     return c;
+    }
+
+
+void main()
+{
+    printf("5!=");
+    int n = factorial(5);
+    printf(n);
+}

@@ -1,0 +1,38 @@
+double dog(int a, int b)
+{
+  int f = a+b/2;
+    if(a>b)
+    {
+       printf("If1");
+       f = a+b;
+    } else if(b<a)
+    {
+      printf("If2");
+    } else if (f>4)
+    {
+        int d = 5;
+        d = 4;
+        f = d *a;
+        printf("If3");
+    } else if(b>f)
+    {
+      printf("If4");
+      f = 1000*2;
+    }
+ return f*2;
+}
+
+
+  
+double add(double c, double d)
+{
+   int e = c +d;
+   return e+2;
+}
+
+void main()
+{
+
+  int i = dog(5,5);
+  return;
+}

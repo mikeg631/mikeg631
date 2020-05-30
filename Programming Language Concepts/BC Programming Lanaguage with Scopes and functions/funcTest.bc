@@ -1,0 +1,31 @@
+define ab(a)
+{
+b=0;/*created in function scope*/
+b=2+3;/*updated in function scope*/
+if(b>a)
+{
+return 1;
+} else{
+c=2;
+while(b<a)
+{
+b=b*2;
+}
+return b;
+}
+}
+
+x=ab(14);/*returns 20*/
+x=ab(3);/*returns 1*/
+
+define max(a,b)
+{
+if(a>b)
+{
+return a;
+}
+return b;
+}
+
+x=max(5,4);/*prints 5*/
+x=max(3,20);/*prints 30*/

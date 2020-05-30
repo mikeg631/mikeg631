@@ -1,0 +1,22 @@
+a=5;
+b=2.5;
+c=3;
+print "Basic Operations below";
+a+b;/* a+b, output: 7.5;*/
+a*b; /* a*b, output 12.5*/
+a/b; /*  a/b, output: 2.0*/
+a%c; /*a%c, output: 2.0*/
+c^2; /*c^2, output: 9.0*/
+;
+print "Basic Precedence test Starts";
+print "5/2+a: ",5/2 +a;  /*output: 7.5*/
+print "(a+5)/2: ",(a+5)/2;  /*output: 5*/
+print "a+-5/2: ",a+-5/2;  /*output: 2.5*/
+print "-(a+5)/2: ",-(a+5)/2;  /*output: -5.0*/
+print "a+5/2: ",a+5/2;  /*output: 7.5*/
+print "3*5^3: ",3*5^3; /*Evaluated as 3*(5^3), output 375.0*/
+print "Interesting variable precedence";
+print "++a*3/2+15/3: ", ++a*3/2+15/3," a = ", a;;/*like 6*3/2 + 15/3, output = 9+5=14, a=6*/
+print "a++*3/2+15/3: ", a++*3/2+15/3," a = ", a;;/*like 6*3/2 + 15/3, output = 9+5=14, a=7*/
+print "a=4*3/2+15/3 < 12: ", a=4*3/2+15/3 < 12," a = ", a;/*like 4*3/2 + 15/3, output = 9+5=11, a=1*/
+a;

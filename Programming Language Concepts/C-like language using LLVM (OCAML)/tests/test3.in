@@ -1,0 +1,15 @@
+int min(int a, int b)
+{
+    int c = a;
+    if(a>b)
+    {
+        c = b;
+    }
+    return c;
+}
+
+void main()
+{
+    int minc = min(8,9);
+    printf(minc);
+}

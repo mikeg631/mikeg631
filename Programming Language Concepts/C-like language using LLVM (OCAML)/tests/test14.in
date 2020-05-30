@@ -1,0 +1,27 @@
+void main()
+{
+    bool a= true;
+    bool b = false;
+    int c = 5;
+    int n = 10;
+    int d = 0;
+    if(a || b)
+    {
+        println("this is true");
+    }
+     if(!(a && d))
+    {
+        println("Int d and bool d is false as d is 0");
+    }
+
+    if(c > 10 && a)
+    {
+        printf("Doesn't happen");
+    }
+    else
+     {
+      printf("Precedence dictates that c>10 is excuted to false before 10 && a");
+
+    }
+   return;
+}

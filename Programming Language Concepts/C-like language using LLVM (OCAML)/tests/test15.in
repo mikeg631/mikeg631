@@ -1,0 +1,9 @@
+void calltest()
+{
+    printf("This is a void function");
+}
+void main() 
+{
+ calltest();
+return;
+}

@@ -1,0 +1,421 @@
+
+type llvar = string*llvalue
+let context = global_context()
+let the_module = create_module context "my jit"
+let null_byte = '\x00'
+let builder = builder context
+let double_type = double_type context
+let int_type = i32_type context
+let bool_type = i1_type context
+let char_type = i8_type context
+let string_type = pointer_type char_type
+let named_values:(string, string*llvalue) Hashtbl.t = Hashtbl.create 15
+let func_values:(string, string*llvalue) Hashtbl.t = Hashtbl.create 15
+let global_values:(string, string*llvalue) Hashtbl.t = Hashtbl.create 15
+let global_funcs:(string, string*llvalue) Hashtbl.t = Hashtbl.create 15
+
+
+let getTypeFromValue (n:llvalue) : string = 
+  getTypeOfType (type_of n)
+
+
+let getTypeOfType (tempType:lltype) : string = 
+  match (classify_type tempType) with
+  | 	Llvm.TypeKind.Void -> "void"
+| Llvm.TypeKind.Half ->  "double"
+| Llvm.TypeKind.Float -> "double"
+| Llvm.TypeKind.Double -> "double"
+| 	Llvm.TypeKind.Integer -> let d = integer_bitwidth tempType in 
+if d = 1 then "bool" else if d = 32 then "int" else raise (Error "unsupported bitwidth for integer")
+| 	Llvm.TypeKind.Function -> "function"
+| 	Llvm.TypeKind.Array ->   "array"
+| 	Llvm.TypeKind.Pointer -> "pointer"
+| _ -> "not expected?"
+
+let  getGlobalStringFormat s = 
+  match lookup_global s the_module with
+  | Some format -> format
+  | None -> raise (Error "Couldn't find format stored in globals")
+
+
+
+      let castToType (n:llvalue) (castTo:string) : llvalue =
+        let valueType = getTypeFromValue n in
+        match castTo with 
+          | "double" -> ( match valueType with 
+          | "double" -> n (*no cast required*)
+          | "int" -> build_sitofp n double_type "castIntToFloat" builder
+          | "bool" -> build_sitofp n double_type "castBoolToFloat" builder
+          | _ -> n
+          )
+          | "int" -> ( match valueType with 
+          | "int" -> n
+          | "bool" -> build_intcast n int_type "castBoolToInt" builder
+          | "double" -> build_fptosi n int_type "castDoubleToInt" builder
+          | _ -> n
+          )
+          | "bool" -> ( match valueType with 
+          | "bool" -> n
+          | "int" -> build_intcast n bool_type "castIntToBool" builder
+          | "double" -> build_fptosi n bool_type "castDoubleToBool" builder
+          | _ -> n
+          )
+          | _ -> n (*No other types are defined that you can cast to so this shouldn't happen*)
+
+
+let loadVariable name =
+if((Hashtbl.mem named_values name)) then 
+let (varType,load) = (Hashtbl.find named_values name) in (varType,(build_load load name builder))
+else let (varType,load) = (try Hashtbl.find func_values name with 
+| Not_found -> (try Hashtbl.find global_values name with
+| Not_found -> raise (Error (String.concat "Unknown variable:" [name;])))) in (varType,load)
+
+
+    let buildStore n1 temp =
+      match temp with
+      | (varType,n) -> (build_store n1 n2 builder)
+
+
+
+  codegen_callPrintf (ptr:llvalue) = 
+  let args = [|ptr|] in
+  let callee = (match lookup_function "printf" the_module with
+    | Some func -> func
+    | None -> raise (Error "Can't call printf")) in
+  build_call callee args "printf" builder
+
+
+
+buildCall callee2 argList2 =
+let argList =  Array.of_list argList2 in
+let callee = 
+match lookup_function callee2 the_module with
+| Some callee3 -> callee3
+| None ->  raise (Error (String.concat "unknown function referenced:" [callee2;])) in 
+let params = params callee in
+if Array.length params == Array.length argList then () else
+        raise (Error (String.concat "Incorrect number of arguments for: " [callee2;]));
+      let args2 = (Array.map2 makeCorrectType params argList) in
+      build_call callee args2 "" builder
+
+
+        
+        and makeString s =
+        let strLen = ((String.length s)+1) in
+        let buf = build_array_malloc char_type (const_int int_type strLen)  "buildString" builder in
+       (for  i = 0 to (strLen -2) do
+        let arrayCharT = Llvm.array_type char_type (i) in
+        let stringPT_type = Llvm.pointer_type arrayCharT in
+        let castedPointer = build_bitcast buf stringPT_type "cast" builder
+         in
+       let thisChar = (const_int char_type (Char.code (String.get s i))) in
+       let thisPointer = (build_gep  castedPointer [|(const_int int_type 0);(const_int int_type i);|] "LoadIndex" builder)
+       in build_store thisChar thisPointer builder
+      done); buf
+
+
+  and codegen_stringExpr (sE: Ast.stringExpr) : llvalue =
+  match sE with
+| Ast.String(s) -> makeString s
+| Ast.VarString(name) -> let (varType,succ) = (loadVariable name) in
+(codegen_callsnprint succ)
+| Ast.ConcatString(s1,s2) -> codegen_callconcat (codegen_stringExpr s1) (codegen_stringExpr s2)
+| Ast.ConcatExprString(e,s2) -> codegen_callconcat (codegen_callsnprint (codegen_expr e)) (codegen_stringExpr s2)
+| Ast.ConcatSEExpr(s1,e) -> codegen_callconcat (codegen_stringExpr s1) (codegen_callsnprint (codegen_expr e))
+
+  
+      let rec makeCorrectType paramType param =
+        let expectedType = (getType paramType) in
+        match param with 
+        | Ast.VarArg(s) -> let (varType,load) = loadVariable s in (match varType with
+        | "string" -> load (* no possible cast, will just let call instruction check for correctness here*)
+        | "bool" -> (castToType load varType expectedType)
+        | "int" -> (castToType load varType expectedType)
+        | "double" -> (castToType load varType expectedType)
+        | _ -> raise (Error "unexpected type in function call!!!"))
+        | Ast.ArgString(sE) -> (codegen_stringExpr sE)
+        | Ast.Arg(e) -> let temp = codegen_expr e in (castToType temp (getType temp) expectedType)
+
+
+
+
+^^ mostly helper functions re-assess their nessecity after implementing planned changes
+
+
+
+and codegen_expr (d: Ast.expr) = 
+match d with 
+  | Ast.Double(f) -> (const_float double_type f)
+  | Ast.Int(i) -> (const_float double_type (float_of_int i))
+  | Ast.Var(name) ->
+  let (typeV ,value) = loadVariable name in
+      (match typeV with
+    | "int" -> build_sitofp value double_type "intTofloat" builder
+    | "double" -> value
+    | "bool" -> build_sitofp  value double_type "boolTofloat" builder
+    | "string" -> value)
+| Ast.Add(l, r) -> (build_fadd (castToType2 (codegen_expr l) "double") (castToType2 (codegen_expr r) "double") "addtmp" builder)
+| Ast.Sub(l, r) -> (build_fsub (castToType2 (codegen_expr l) "double") (castToType2 (codegen_expr r) "double") "subtmp" builder)
+| Ast.Mul(l, r) -> (build_fmul (castToType2 (codegen_expr l) "double") (castToType2 (codegen_expr r) "double") "multmp" builder)
+| Ast.Divide(l, r) -> (build_fdiv (castToType2 (codegen_expr l) "double") (castToType2 (codegen_expr r) "double") "dividetmp" builder)
+| Ast.Pos(e) ->    codegen_expr e 
+| Ast.Neg(e) ->    (build_neg (codegen_expr e) "negtmp" builder)
+| Ast.FunCall(callee, argsList) -> buildCall callee argsList
+| _ -> build_fpcast (codegen_condition d) double_type "boolTofloat" builder 
+
+
+
+
+and codegen_condition (cond: Ast.expr) : llvalue = 
+  match cond with 
+| Ast.Boolean(b) -> if(b) then const_int bool_type 1 else const_int bool_type 0
+| Ast.Var(name) -> (let (typeKind,value) = (loadVariable name) in
+    (match typeKind with
+    | "double" -> (build_fptosi value bool_type "floatToInt" builder)
+    | "int"  -> (build_intcast value bool_type "IntToBool" builder)
+    | "bool" -> value
+    | "string" -> raise (Error "String found in boolean expression")))
+| Ast.Comp(c) -> build_fptosi (codegen_comparison c) bool_type "intCastComparison" builder
+| Ast.And(c1,c2)  -> (build_and (codegen_condition c1) (codegen_condition c2) "andtemp" builder)
+| Ast.Or(c1,c2)  -> (build_or (codegen_condition c1) (codegen_condition c2) "ortemp" builder)
+| Ast.Not(c) -> (build_not (codegen_condition c) "nottemp" builder)
+| _ -> (build_fptosi (codegen_expr cond) bool_type "floatTobool" builder)
+and 
+
+
+
+
+
+codegen_comparison (e: Ast.expr) = 
+match e with 
+| Ast.Equal(e1,e2) -> (build_fcmp Fcmp.Ueq (codegen_expr e1) (codegen_expr e2) "equaltmp" builder)
+| Ast.NotEqual(e1,e2) -> (build_fcmp Fcmp.Une (codegen_expr e1) (codegen_expr e2) "notequaltmp" builder)
+| Ast.LessThanEqual(e1,e2) -> (build_fcmp Fcmp.Ule (codegen_expr e1) (codegen_expr e2) "lessthanequaltmp" builder)
+| Ast.GreaterThanEqual(e1,e2) -> (build_fcmp Fcmp.Uge (codegen_expr e1) (codegen_expr e2) "greaterthanequaltmp" builder)
+| Ast.LessThan(e1,e2) -> (build_fcmp Fcmp.Ult (codegen_expr e1) (codegen_expr e2) "lessthantmp" builder)
+| Ast.GreaterThan(e1,e2) -> (build_fcmp Fcmp.Ugt (codegen_expr e1) (codegen_expr e2) "greaterthanetmp" builder) 
+| _ -> (codegen_expr e)
+
+
+
+
+and codegen_FunFor assign cond incre code =
+let temp = (match assign with 
+| Ast.DeclareVarAssign(varType,name,e) -> (codegen_funStatement (Ast.StatementDeclare(Ast.DeclareVarAssign(varType,name,e)))); name
+| Ast.AssignVar(name,e) -> (codegen_funStatement (Ast.StatementAssign(Ast.AssignVar(name,e)))); name
+| _ -> raise (Error (String.concat "Wrony Type of assignment in for loop:" ["";]))) in
+(codegen_expr (Var(temp)));
+let preheader_bb = insertion_block builder in
+let the_function = block_parent preheader_bb in
+let loop_bb = append_block context "Forloop" the_function in
+let end_cond1 = (codegen_condition cond) in
+position_at_end loop_bb builder;
+codegen_FunCodeblock code;
+codegen_increment incre;
+let end_cond2 = (codegen_condition cond) in
+      (let loop_end_bb = insertion_block builder in
+      let after_bb = append_block context "afterForloop" the_function in
+      build_cond_br end_cond2 loop_bb after_bb builder;
+      position_at_end preheader_bb builder;
+      build_cond_br end_cond1 loop_bb after_bb builder;
+      position_at_end after_bb builder); (const_null double_type)
+
+and codegen_FunWhile cond code =
+let preheader_bb = insertion_block builder in
+let the_function = block_parent preheader_bb in
+let loop_bb = append_block context "Whileloop" the_function in
+let end_cond1 = codegen_condition cond in
+position_at_end loop_bb builder;
+codegen_FunCodeblock code;
+let end_cond2 = codegen_condition cond in
+      let loop_end_bb = insertion_block builder in
+      let after_bb = append_block context "afterWhileloop" the_function in
+      position_at_end loop_bb builder;
+      build_cond_br end_cond2 loop_bb after_bb builder;
+      position_at_end preheader_bb builder;
+      build_cond_br end_cond1 loop_bb after_bb builder;
+      position_at_end after_bb builder;
+      (const_null double_type)
+      and codegen_FunifStmt l =
+      let endL = (List.length l) in
+      let start_bb = insertion_block builder in
+      let the_function = block_parent start_bb in
+      let then_bbs = (Array.make  endL start_bb) in
+      let new_then_bbs = (Array.make endL start_bb) in
+      let cond_bbs = (Array.make endL start_bb) in
+      (*Generate each branch's blocks keeping their basic blocks in an array*)
+      (for i = 0 to (endL-1) do
+        let cond_bb = append_block context "IfCond" the_function in
+        position_at_end cond_bb builder;
+        let then_bb = append_block context "then" the_function in
+        position_at_end then_bb builder;
+        let (cond,code) = (List.nth l i) in
+        codegen_FunCodeblock code;
+        position_at_end then_bb builder; 
+        let new_then_bb = insertion_block builder in
+        (Array.set then_bbs i then_bb);
+        (Array.set new_then_bbs i new_then_bb);
+        (Array.set cond_bbs i cond_bb)
+      done);
+      (*Grab basic block at end of the conditions hold onto it *)
+      let merge_bb = append_block context "ifcont" the_function in
+      position_at_end merge_bb builder;
+      position_at_end start_bb builder;
+      build_br (Array.get cond_bbs 0) builder;
+      (for i = 0 to (endL-2) do
+      position_at_end (Array.get cond_bbs i) builder;
+      let (tempCond,tempCode) = (List.nth  l i) in
+      build_cond_br (codegen_condition tempCond) (Array.get then_bbs i) (Array.get cond_bbs (i+1)) builder;
+      done);
+      position_at_end (Array.get cond_bbs (endL-1)) builder;
+      let (tempCond,tempCode) = (List.nth  l (endL-1)) in
+      build_cond_br (codegen_condition tempCond) (Array.get then_bbs (endL-1)) merge_bb builder;
+      (*Finish by adding a branch at the end of each codeblock leading back to the end*)
+      (for i = 0 to ((List.length l)-1) do
+        position_at_end (Array.get new_then_bbs i) builder; ignore (build_br merge_bb builder)
+      done);
+      position_at_end merge_bb builder;
+      const_null int_type
+and
+codegen_increment = function
+       | Ast.PreInc(s) -> codegen_funStatement (Ast.StatementAssign(Ast.AssignVar(s,Add(Var(s),Int(1)))))
+       | Ast.PostInc(s) -> codegen_funStatement (Ast.StatementAssign(Ast.AssignVar(s,Add(Var(s),Int(1)))))
+       | Ast.PreDec(s) -> codegen_funStatement (Ast.StatementAssign(Ast.AssignVar(s,Sub(Var(s),Int(1)))))
+       | Ast.PostDec(s) -> codegen_funStatement (Ast.StatementAssign(Ast.AssignVar(s,Sub(Var(s),Int(1)))))
+
+let getArgTypes (args:Ast.argList) =
+  if(List.length args < 1) then [||] else
+  let argTypes = (Array.make (List.length args) double_type) in
+  ignore((for i = 0 to ((List.length args)-1) do
+    (match (List.nth args i) with
+    | (varType,name) ->(match varType with 
+      | "int" -> (Array.set argTypes i int_type)
+      | "double" -> (Array.set argTypes i double_type)
+      | "bool" -> (Array.set argTypes i bool_type)
+      | "string" -> (Array.set argTypes i string_type)
+      | _ -> raise (Error (String.concat "Error, unkown type in function:" [name;]))
+      ) 
+    | _ -> raise (Error "Wrong type? Parsing error?"))
+  done));
+  argTypes
+
+  let getArgNames (args:Ast.argList) =
+    if(List.length args < 1) then [||] else
+    let argNames = (Array.make (List.length args) "") in
+    (for i = 0 to ((List.length args)-1) do
+      match (List.nth args i) with
+      | (varType,name) -> (Array.set argNames i name)
+      | _ -> raise (Error "Wrong type? Parsing error?")
+    done);
+    argNames
+
+    let getStringTypes (args:Ast.argList) =
+      if(List.length args < 1) then [||] else
+      let types = (Array.make (List.length args) "") in
+      (for i = 0 to ((List.length args)-1) do
+        match (List.nth args i) with
+        | (varType,name) -> (Array.set types i varType)
+        | _ -> raise (Error "Wrong type? Parsing error?")
+      done);
+      types
+
+let codegen_proto (varType: string) (name: string) (args: Ast.argList) =
+let paramTY = getArgTypes args in
+let varNames = getArgNames args in
+let varStypes = getStringTypes args in
+let fType = (match varType with 
+      | "int" -> int_type
+      | "double" -> double_type
+      | "bool" -> bool_type
+      | "string" -> string_type
+      | "void" -> void_type context
+      | _ -> raise (Error (String.concat "Error, unkown type in function:" [name;]))
+      ) in
+let ft = function_type fType paramTY in
+let f =( match lookup_function name the_module with
+  | None -> declare_function name ft the_module
+  | Some f ->
+      (if block_begin f <> At_end f then
+        raise (Error (String.concat "Error, redifintion of function:" [name;]));
+      if element_type (type_of f) <> ft then
+        raise (Error (String.concat "redefinition of function with different # args" [name;])) ;
+      f))
+in
+Array.iteri (fun i a ->
+        let n = varNames.(i) in
+        let t = varStypes.(i) in
+        set_value_name n a;
+        Hashtbl.add func_values n (t,a);
+      ) (params f);
+      f
+
+
+let codegen_funcDefine the_fpm s =
+  Hashtbl.clear func_values;
+  Hashtbl.clear named_values;
+   match s with
+   | Ast.DefineFunc(varType,name,args,code) ->
+   (let the_function = (codegen_proto varType name args) in
+   let bb = append_block context "entry" the_function in
+      position_at_end bb builder;
+      let ret_value = (codegen_FunCodeblock code) in
+      (match varType with 
+      | "string" -> build_ret ret_value builder
+      | "void" -> build_ret_void builder
+      | _ -> build_ret (castToType ret_value (getType ret_value) varType) builder );
+      Llvm_analysis.assert_valid_function the_function;
+      let _ = PassManager.run_function the_function the_fpm in
+      the_function)
+    |  _ -> raise (Error "Error not a function")
+
+
+
+
+
+
+let dump the_fpm globalList =
+  let printf_t = (var_arg_function_type int_type [| (pointer_type (i8_type context)) |]) in 
+  (declare_function "printf" printf_t the_module);
+  let snprintf_t =  (var_arg_function_type int_type [| (pointer_type (i8_type context)) |])
+  in (declare_function "snprintf" snprintf_t the_module);
+let the_function = (codegen_proto "int" "main" []) in
+  let bb = append_block context "Entry" the_function in
+     position_at_end bb builder;
+     build_global_stringptr "%s" "%s" builder;
+     build_global_stringptr "%d" "%d" builder;
+     build_global_stringptr "%f" "%f" builder;
+     build_global_stringptr "\n" "\n" builder;
+  codegen_top the_fpm globalList;
+  position_at_end bb builder;
+  let callee = (match lookup_function "realMain" the_module with
+  | Some func -> buildCall "realMain" []
+  | None ->  Printf.eprintf "Couldn't find main func for this file. Nothing will be ran:\n "; const_null int_type )
+  in 
+ 
+  build_ret (const_int int_type 1) builder;
+  Llvm_analysis.assert_valid_function the_function;
+     PassManager.run_function the_function the_fpm;
+      Llvm_analysis.assert_valid_module the_module 
+
+  
+
+let rec runCode stream =
+  let test = initialize() in
+  let triple = Llvm_target.Target.default_triple () in
+  let the_execution_engine = create the_module in
+  let lltarget  = Llvm_target.Target.by_triple triple in
+  let llmachine = Llvm_target.TargetMachine.create ~triple:triple lltarget in
+  let lldly     = Llvm_target.TargetMachine.data_layout llmachine in
+  set_target_triple (Llvm_target.TargetMachine.triple llmachine) the_module;
+  set_data_layout (Llvm_target.DataLayout.as_string lldly) the_module;
+  let the_fpm = PassManager.create_function the_module in
+ add_instruction_combination the_fpm;
+  add_reassociation the_fpm;
+  add_constant_propagation;
+  add_gvn the_fpm;
+  add_cfg_simplification the_fpm;
+  ignore (PassManager.initialize the_fpm);
+  dump the_fpm stream;
+  let s = (string_of_llmodule the_module) in
+ (Printf.printf "%s" s)
+

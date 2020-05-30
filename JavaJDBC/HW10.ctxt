@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.target=HW10
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=rs
+comment2.target=void\ printResults(java.sql.ResultSet)
+comment3.params=rs
+comment3.target=boolean\ printColNames(java.sql.ResultSet)
+comment4.params=dbc
+comment4.target=void\ printTables(DBConnection)
+comment5.params=dbc\ table
+comment5.target=boolean\ printColumns(DBConnection,\ java.lang.String)
+numComments=6

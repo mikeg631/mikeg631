@@ -1,0 +1,19 @@
+b=0;
+print "loop starts"
+for(i = 0; i<5; i++)/*add 10 to b each time*/
+{
+b+=10;
+}
+print "loop ends b is"
+b; /*b is 50*/
+print "loop starts"
+for(i = 0; i<5; i++)
+{
+b+=10;
+print "i is "
+print i=20; /*i is 20 this causes loop to stop executing*/
+}
+print "loop ends b is"
+b;/*b is 60*/
+print "i is "
+i;/*i back to zero*/

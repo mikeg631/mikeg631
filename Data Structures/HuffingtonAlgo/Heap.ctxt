@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.target=Heap
+comment1.params=
+comment1.target=Heap()
+comment2.params=
+comment2.target=int\ size()
+comment3.params=array
+comment3.target=Heap(HuffTree[])
+comment3.text=\r\n\ Construct\ the\ binary\ heap\ given\ an\ array\ of\ items.\r\n
+comment4.params=
+comment4.target=void\ buildHeap()
+comment4.text=\r\n\ \ \ runs\ at\ O(size)\r\n
+comment5.params=k
+comment5.target=void\ percolatingDown(int)
+comment6.params=array
+comment6.target=void\ heapSort(HuffTree[])
+comment6.text=\r\n\ \ Sorts\ a\ given\ array\ of\ items.\r\n
+comment7.params=
+comment7.target=HuffTree\ remove()
+comment7.text=\r\n\ Deletes\ the\ top\ item\r\n
+comment8.params=x
+comment8.target=void\ insert(HuffTree)
+comment8.text=\r\n\ Inserts\ a\ new\ item\r\n
+comment9.params=
+comment9.target=void\ doubleSize()
+numComments=10

@@ -1,0 +1,55 @@
+int modolus(int a, int b)
+{
+ int c = a/b;
+ c = b*c;
+ c = a - c;
+return c;
+}
+
+int iseven(int a)
+{
+    bool temp = false;
+    int b = modolus(a,2);
+    if(b == 0)
+    {
+        temp = true;
+    }
+    return temp;
+}
+
+double pow(double base, int exp)
+{
+    int ret = base;
+    int temp = iseven(exp);
+    if(exp == 1)
+    {
+        ret = base;
+        printf(base);
+    } else if (temp == 1)
+    {
+        ret = pow(base,exp/2);
+        ret = ret*ret;
+        printf(ret);
+        printf(" * ");
+        printf(ret);
+    } else
+    {
+        ret = pow(base,(exp-1)/2);
+        ret = base*ret*ret;
+        printf(ret);
+        printf(" * ");
+        printf(ret);
+        printf(" * ");
+        printf(base);
+    }
+    return ret;
+}
+
+void main()
+{
+    printf("Doing exponention by a^1/2*a^1/2 instead of a*a*a....");
+    printf("Example 231:");
+    double n = pow(2,31);
+    printf("Result:");
+    printf(n);
+}

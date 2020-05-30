@@ -1,0 +1,5 @@
+void main()
+{
+  string s = "this string";
+  printf(s);
+}

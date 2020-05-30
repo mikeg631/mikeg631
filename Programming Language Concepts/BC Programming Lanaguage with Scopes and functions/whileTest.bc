@@ -1,0 +1,7 @@
+a = 5;
+b = 0;
+while(a>b)
+{
+print b++;
+}
+/*0 to 4 printed from while loop*/

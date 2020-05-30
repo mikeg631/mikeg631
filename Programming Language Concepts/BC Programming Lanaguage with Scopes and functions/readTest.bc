@@ -1,0 +1,10 @@
+print "Be ready to input!! Here are some read()s"
+print "5*read()+3^2: "
+5*read()+3^2;/*5 times read plus 9*/
+print "3^read()*2: "
+3^read()*2;/*2 times 3 to the read()*/
+print "read()/2: "
+read()/2;/*halves entered value*/
+print "a =: "
+a = read();/* read() is placed into a*/
+a;/* Print read() */

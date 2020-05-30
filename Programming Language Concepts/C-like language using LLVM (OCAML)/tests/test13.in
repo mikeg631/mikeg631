@@ -1,0 +1,17 @@
+void main()
+{
+    printf("Double for loop");
+
+int n = 3;
+ for(int i = 0; i < n; i++)
+    {
+    for(int j = 0; j < n; j++)
+    {
+        printf("i:\\n");
+        printf(i);
+        printf("j:\\n");
+        printf(j);
+    }
+    }
+    return;
+}

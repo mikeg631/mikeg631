@@ -1,0 +1,13 @@
+build/
+
+*.DS_Store
+
+
+project.xcworkspace/
+xcuserdata/
+
+*.pbxuser
+*.perspective
+*.perspectivev3
+
+__pycache__/*

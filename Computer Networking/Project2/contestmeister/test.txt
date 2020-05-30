@@ -1,0 +1,15 @@
+p 3
+TAG
+?
+.
+(a) answer 1
+.
+(b) answer 2
+.
+.
+b
+g 4
+l
+r 1
+s 5
+a 5 4
