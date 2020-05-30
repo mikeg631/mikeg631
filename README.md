@@ -1,14 +1,14 @@
 ## My Portfolio
 This github contains projects that I have worked on during my Computer Science degree and in my own time.
 
- *Computer Networking
- *Data Structures
- *Design Patterns
- *My own DiscordBot for a personal server
- *A GUI Java DBC
- *Operating Systems
- *Programming Language Concepts
- *My senior project
+ * Computer Networking
+ * Data Structures
+ * Design Patterns
+ * My own DiscordBot for a personal server
+ * A GUI Java DBC
+ * Operating Systems
+ * Programming Language Concepts
+ * My senior project
 
 ## Computer Netowrking
 This contains a client-server project that allows a contest-miester to create questions for a quiz contest. Users can take the quiz made by the contest-miester
@@ -22,7 +22,7 @@ There are two key projects here:
 ## Design Patterns
 There are two separate projects here focused on Tex-Mex food. The goal of these projects was to make use of design patterns learned in the class to simulate the creation of food.
  
-##JavaJDBC
+## JavaJDBC
 Here is an assignment that required the use of Java to make a connection with an existing MariaDB database. A GUI (made using swing) is provided to allow for queries on the database.
  
  ## Operating systems
