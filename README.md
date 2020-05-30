@@ -1,4 +1,3 @@
-#My portfolio
 This github contains projects that I have worked on during my Computer Science degree and in my own time.
 
  *Computer Networking
