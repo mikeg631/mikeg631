@@ -1,5 +1,5 @@
 # NSG-Patient-Anatomy-App
-#### Contributors: Tikahari Khanal, Michael Gordo, Jonas Pena
+#### Contributors: Tikahari Khanal, Michael Gordon, Jonas Pena
 #### Necessary Installs
 ##### Client
 * VTK 7.0.0
