@@ -10,7 +10,7 @@ This github contains projects that I have worked on during my Computer Science d
  * Programming Language Concepts
  * My senior project
 
-## Computer Netowrking
+## Computer Networking
 This contains a client-server project that allows a contest-miester to create questions for a quiz contest. Users can take the quiz made by the contest-miester
 The server was created using Java
 
