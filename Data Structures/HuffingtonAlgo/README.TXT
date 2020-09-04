@@ -7,7 +7,7 @@ how to navigate the challenges of intregrating all of the data structures.
 Data Structures used:
 I used four data strucutes in this program. First I used a simple array to contain the frequencies of a character, where the index correpsonds to a character code. 
 Secondly I used a Min Heap to store the Huffman Tree so that the program could properly build the Huffman tree. As expected, the entire algrothim needs a Huffman tree to work so 
-thar was used as well. Lastly I used a stack to obtain codes from the Huffman tree as it could used to efficently and properly traverse the tree with recursion.
+that was used as well. Lastly I used a stack to obtain codes from the Huffman tree as it could used to efficently and properly traverse the tree with recursion.
 
 Computational complexity:
 The computional complexity of the minheap operations are known to be on the order of O(log n), which is  the height of the tree. Getting the frequencies of the characters
